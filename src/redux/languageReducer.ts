@@ -1,6 +1,8 @@
 
 //用于改变action传给store的数据
 
+import i18n from "i18next";
+
 export interface LanguageState {
     language: "en" | "zh";
     languageList: { name: string; code: string }[];
@@ -19,9 +21,10 @@ const defaultState: LanguageState = {
  * action:页面action来的数据
  * reducer给store返回一个新的state
  * */
-export default (state = defaultState, action) => {
+ const variable = (state = defaultState, action) => {
     switch (action.type) {
         case "change_language":
+            i18n.changeLanguage(action.payload); //国际化(修改语言),这么做不好,reducer应该是纯函数,不应该有副作用
             return { ...state, language: action.payload };
         case "add_language":
             return {
@@ -32,3 +35,5 @@ export default (state = defaultState, action) => {
             return state;
     }
 };
+
+export default variable;
