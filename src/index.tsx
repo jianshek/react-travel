@@ -4,10 +4,14 @@ import './index.css';
 import App from './App';
 import "antd/dist/antd.css";  //引入antd样式
 import "./i18n/configs";   //引入国际化配置文件即可  
+import { Provider } from "react-redux";  //引入Provider,redux就可以使用了
+import store from "./redux/store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

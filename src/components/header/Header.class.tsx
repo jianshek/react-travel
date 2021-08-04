@@ -7,49 +7,52 @@ import logo from "../../assets/logo.svg";
 import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import store from "../../redux/store";
-import { LanguageState } from "../../redux/languageReducer";
 //小写w为高阶函数,大写W为数据类型定义
 import { withTranslation, WithTranslation } from "react-i18next";
+import { RootState } from "../../redux/store";
+import {
+  addLanguageActionCreator,
+  changeLanguageActionCreator,
+} from "../../redux/language/languageActions";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 
-interface State extends LanguageState {}
-
-class HeaderComponnet extends React.Component<RouteComponentProps & WithTranslation, State> {
-  constructor(props) {
-    super(props);
-    const storeState = store.getState(); //从store获取数据
-    this.state = {
-      language: storeState.language,
-      languageList: storeState.languageList,
-    };
-    store.subscribe(this.handleStoreChange);  //订阅store,当store的数据改变时,页面可以接受到
+//store里的数据转为页面的prop
+const mapStateToProps = (state: RootState) => {
+  return {
+    language: state.language,
+    languageList: state.languageList
   }
+}
+//dispatch转为prop
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    changeLanguage: (code: "zh" | "en") => {
+      const action = changeLanguageActionCreator(code);
+      dispatch(action);
+    },
+    addLanguage: (name: string, code: string) => {
+      const action = addLanguageActionCreator(name, code);
+      dispatch(action);
+    },
+  };
+};
 
+type PropsType = RouteComponentProps & // react-router 路由props类型
+  WithTranslation & // i18n props类型
+  ReturnType<typeof mapStateToProps> & // redux store 映射类型 
+  ReturnType<typeof mapDispatchToProps>; // redux dispatch 映射类型 
 
-  handleStoreChange = ()=>{
-    const storeState = store.getState();
-    this.setState({
-      language: storeState.language,
-      languageList: storeState.languageList,
-    });
-  }
+class HeaderComponnet extends React.Component<PropsType> {
 
   menuClickHandler = (e) => {
     console.log(e);
-    if(e.key === "new") {
+    if (e.key === "new") {
       // 处理新语言添加action
-      const action = {
-        type: "add_language",
-        payload: { code: "new_lang", name: "新语言" }
-      }
-      store.dispatch(action); //dispatch:将数据传给store
+      this.props.addLanguage("新语言", "new_lang");  //使用 react-redux 的 mapDispatchToProps方法
     } else {
-      const action = {
-        type: "change_language",
-        payload: e.key,
-      };
-      store.dispatch(action);  //dispatch:将数据传给store
+      this.props.changeLanguage(e.key)
     }
   };
 
@@ -69,7 +72,7 @@ class HeaderComponnet extends React.Component<RouteComponentProps & WithTranslat
               style={{ marginLeft: 15 }}
               overlay={
                 <Menu onClick={this.menuClickHandler}>
-                  {this.state.languageList.map((l) => {
+                  {this.props.languageList.map((l) => {
                     return <Menu.Item key={l.code}>{l.name}</Menu.Item>;
                   })}
                   <Menu.Item key={"new"}>{t("header.add_new_language")}</Menu.Item>
@@ -77,7 +80,7 @@ class HeaderComponnet extends React.Component<RouteComponentProps & WithTranslat
               }
               icon={<GlobalOutlined />}
             >
-              {this.state.language === "zh" ? "中文" : "English"}
+              {this.props.language === "zh" ? "中文" : "English"}
             </Dropdown.Button>
             <Button.Group className={styles["button-group"]}>
               <Button onClick={() => history.push("register")}>{t("header.register")}</Button>
@@ -89,7 +92,7 @@ class HeaderComponnet extends React.Component<RouteComponentProps & WithTranslat
           <span onClick={() => history.push("/")}>
             <img src={logo} alt="logo" className={styles["App-logo"]} />
             <Typography.Title level={3} className={styles.title}>
-            {t("header.title")}
+              {t("header.title")}
             </Typography.Title>
           </span>
           <Input.Search
@@ -121,4 +124,7 @@ class HeaderComponnet extends React.Component<RouteComponentProps & WithTranslat
 }
 
 //withTranslation()():第二个括号参数为组件
-export const Header = withTranslation()(withRouter(HeaderComponnet));
+//connect:高阶组件,第一个括号传mapStateToProps和mapDispatchToProps第二个括号传组件
+export const Header = connect(mapStateToProps, mapDispatchToProps)(
+  withTranslation()(withRouter(HeaderComponnet))
+);
