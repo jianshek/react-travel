@@ -1,2 +1,2 @@
-// export * from './Header'
-export * from './Header.class'
+export * from './Header'
+// export * from './Header.class'
