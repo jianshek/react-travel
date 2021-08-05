@@ -21,8 +21,8 @@ import { Dispatch } from "redux";
 //store里的数据转为页面的prop
 const mapStateToProps = (state: RootState) => {
   return {
-    language: state.language,
-    languageList: state.languageList
+    language: state.language.language,
+    languageList: state.language.languageList
   }
 }
 //dispatch转为prop

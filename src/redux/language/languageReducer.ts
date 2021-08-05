@@ -23,7 +23,7 @@ const defaultState: LanguageState = {
  * action:页面action来的数据
  * reducer给store返回一个新的state
  * */
- const variable = (state = defaultState, action:LanguageActionTypes) => {
+ const lanReducer = (state = defaultState, action:LanguageActionTypes) => {
     switch (action.type) {
         case CHANGE_LANGUAGE:
             i18n.changeLanguage(action.payload); //国际化(修改语言),这么做不好,reducer应该是纯函数,不应该有副作用
@@ -38,4 +38,4 @@ const defaultState: LanguageState = {
     }
 };
 
-export default variable;
+export default lanReducer;

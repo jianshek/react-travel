@@ -7,19 +7,66 @@ import {
   ProductCollection,
   BusinessPartners,
 } from "../../components";
-import { Row, Col, Typography } from "antd";  //Row和Col是antd的Grid布局
-import { productList1, productList2, productList3 } from "./mockups";
+import { Row, Col, Typography, Spin } from "antd";  //Row和Col是antd的Grid布局
 import sideImage from "../../assets/images/sider_2019_12-09.png";
 import sideImage2 from "../../assets/images/sider_2019_02-04.png";
 import sideImage3 from "../../assets/images/sider_2019_02-04-2.png";
 import styles from "./HomePage.module.css";
 //小写w为高阶函数,大写W为数据类型定义
 import { withTranslation, WithTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import { RootState } from "../../redux/store";
+import { giveMeDataActionCreator } from "../../redux/recommendProducts/recommendProductsActions";
 
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    loading: state.recommendProducts.loading,
+    error: state.recommendProducts.error,
+    productList: state.recommendProducts.productList
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    giveMeData: () => {
+      dispatch(giveMeDataActionCreator());
+    }
+  };
+};
+
+type PropsType = WithTranslation &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
  
-class HomePageComponent  extends React.Component<WithTranslation> {
+class HomePageComponent  extends React.Component<PropsType> {
+  componentDidMount() {
+    this.props.giveMeData();
+  }
+
   render() {
-    const { t } = this.props; //国际化
+    /**
+     * t:国际化
+     * productList,loading,error是mapStateToProps的数据
+     */
+    const { t, productList, loading, error } = this.props;
+    if (loading) {
+      return (
+        <Spin
+          size="large"
+          style={{
+            marginTop: 200,
+            marginBottom: 200,
+            marginLeft: "auto",
+            marginRight: "auto",
+            width: "100%",
+          }}
+        />
+      );
+    }
+    if (error) {
+      return <div>网站出错：{error}</div>;
+    }
     return (
       <>
         <Header />
@@ -40,7 +87,7 @@ class HomePageComponent  extends React.Component<WithTranslation> {
               </Typography.Title>
             }
             sideImage={sideImage}
-            products={productList1}
+            products={productList[0].touristRoutes}
           />
           <ProductCollection
             title={
@@ -49,7 +96,7 @@ class HomePageComponent  extends React.Component<WithTranslation> {
               </Typography.Title>
             }
             sideImage={sideImage2}
-            products={productList2}
+            products={productList[1].touristRoutes}
           />
           <ProductCollection
             title={
@@ -58,7 +105,7 @@ class HomePageComponent  extends React.Component<WithTranslation> {
               </Typography.Title>
             }
             sideImage={sideImage3}
-            products={productList3}
+            products={productList[2].touristRoutes}
           />
           <BusinessPartners />
         </div>
@@ -69,4 +116,8 @@ class HomePageComponent  extends React.Component<WithTranslation> {
 }
 
 //withTranslation高阶组件为两个括号,第二个括号传组件
-export const HomePage = withTranslation()(HomePageComponent)
+//connect也是两个括号
+export const HomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(HomePageComponent));
