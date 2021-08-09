@@ -6,7 +6,7 @@ import styles from "./App.module.css";
  * Switch:路径切换以页面为单位,防止页面堆叠
  *  */
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { HomePage, SignInPage, RegisterPage, DetailPage } from "./pages";
+import { HomePage, SignInPage, RegisterPage, DetailPage, SearchPage } from "./pages";
 
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
           <Route path="/signIn" component={SignInPage} />
           <Route path="/register" component={RegisterPage} />
           <Route path="/detail/:touristRouteId" component={DetailPage} /> {/*  参数使用冒号开头 */}
+          <Route path="/search/:keywords?" component={SearchPage} />
           <Route render={() => <h1>404 not found 页面去火星了 ！</h1>} />
         </Switch>
       </BrowserRouter>
