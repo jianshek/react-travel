@@ -17,6 +17,7 @@ import { withTranslation, WithTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { RootState } from "../../redux/store";
 import { giveMeDataActionCreator } from "../../redux/recommendProducts/recommendProductsActions";
+import { MainLayout } from "../../layouts/mainLayout";
 
 
 const mapStateToProps = (state: RootState) => {
@@ -38,8 +39,8 @@ const mapDispatchToProps = (dispatch) => {
 type PropsType = WithTranslation &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
- 
-class HomePageComponent  extends React.Component<PropsType> {
+
+class HomePageComponent extends React.Component<PropsType> {
   componentDidMount() {
     this.props.giveMeData();
   }
@@ -69,9 +70,7 @@ class HomePageComponent  extends React.Component<PropsType> {
     }
     return (
       <>
-        <Header />
-        {/* 页面内容 content */}
-        <div className={styles["page-content"]}>
+        <MainLayout>
           <Row style={{ marginTop: 20 }}>
             <Col span={6}>
               <SideMenu />
@@ -108,8 +107,7 @@ class HomePageComponent  extends React.Component<PropsType> {
             products={productList[2].touristRoutes}
           />
           <BusinessPartners />
-        </div>
-        <Footer />
+        </MainLayout>
       </>
     );
   }
