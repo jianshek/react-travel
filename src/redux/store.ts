@@ -10,13 +10,16 @@ import { productDetailSlice } from "./productDetail/slice";
 //使用toolkit中的combineReducers代替redux中的combineReducers
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { productSearchSlice } from "./productSearch/slice";
+import { userSlice } from "./user/slice";
+
 
 
 const rootReducer = combineReducers({
     language: languageReducer,
     recommendProducts: recommendProductsReducer,
     productDetail: productDetailSlice.reducer,
-    productSearch: productSearchSlice.reducer
+    productSearch: productSearchSlice.reducer,
+    user: userSlice.reducer
 })
 //store参数为reducer,action来的数据交给reducer处理,处理完返回给store,订阅store的页面就可以收到改变后的数据
 //中间件执行顺序:https://segmentfault.com/a/1190000005766289
