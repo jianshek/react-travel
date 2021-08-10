@@ -52,7 +52,6 @@ export const Header: React.FC = () => {
   const onLogout = () => {
     dispatch(userSlice.actions.logOut())
     history.push("/")
-    window.location.reload(false) // 可加可不加
   }
 
   return (

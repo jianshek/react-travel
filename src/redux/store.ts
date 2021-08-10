@@ -11,7 +11,22 @@ import { productDetailSlice } from "./productDetail/slice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { productSearchSlice } from "./productSearch/slice";
 import { userSlice } from "./user/slice";
+import { persistStore, persistReducer } from "redux-persist";  //数据持久化
+import storage from "redux-persist/lib/storage"; 
 
+/**
+ * 持久化配置
+ * key:命名空间,相当于数据的根目录
+ * storage:存储方式,有storage和storageSession,storage为长期持久化,storageSession只保存当前页面打开,页面关闭,数据消失
+ * whitelist:白名单,数组里保存的reducer
+ * blacklist:黑名单,除了黑名单之外的reducer,都保存
+ */
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["user"],
+  // blacklist:["language"],
+}
 
 
 const rootReducer = combineReducers({
@@ -21,11 +36,14 @@ const rootReducer = combineReducers({
     productSearch: productSearchSlice.reducer,
     user: userSlice.reducer
 })
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 //store参数为reducer,action来的数据交给reducer处理,处理完返回给store,订阅store的页面就可以收到改变后的数据
 //中间件执行顺序:https://segmentfault.com/a/1190000005766289
 // const store = createStore(rootReducer, applyMiddleware(thunk, actionLog)); 
 const store = configureStore({
-    reducer: rootReducer,
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), actionLog], //因为toolkit有使用自己的中间件,所以先获取默认中间件,然后加入自定义的中间件
     devTools: true,  //开启redux调试
   });
@@ -33,5 +51,7 @@ const store = configureStore({
 //返回store的类型
 export type RootState = ReturnType<typeof store.getState>
 
+//创建持久化store
+const persistor = persistStore(store)
 
-export default store;
+export default { store, persistor };  //返回原来的store和持久化的store
