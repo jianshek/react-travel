@@ -33,9 +33,13 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    
+    logOut: (state) => {    //用户退出登录的reducer,清空数据(logOut:相当于action名称)
+      state.token = null;
+      state.error = null;
+      state.loading = false;
+    },
   },
-  extraReducers: {
+  extraReducers: {        //异步请求的reducer
     [signIn.pending.type]: (state) => {
       state.loading = true;
     },
