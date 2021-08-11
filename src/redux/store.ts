@@ -14,6 +14,7 @@ import { userSlice } from "./user/slice";
 import { persistStore, persistReducer } from "redux-persist";  //数据持久化
 import storage from "redux-persist/lib/storage"; 
 import { shoppingCartSlice } from "./shoppingCart/slice";  //购物车
+import { orderSlice } from "./order/slice";
 
 
 /**
@@ -37,7 +38,8 @@ const rootReducer = combineReducers({
     productDetail: productDetailSlice.reducer,
     productSearch: productSearchSlice.reducer,
     user: userSlice.reducer,
-    shoppingCart: shoppingCartSlice.reducer
+    shoppingCart: shoppingCartSlice.reducer,
+    order: orderSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
