@@ -49,3 +49,8 @@ react17仿携程网(简易版😆😆)
 
 <img width="640" alt="shoppingCart" src="https://user-images.githubusercontent.com/17513103/128961057-6b6af943-dae8-4648-ba16-6bbbd3d257ff.png">
 
+支付 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+<img width="640" alt="placeOrder" src="https://user-images.githubusercontent.com/17513103/128980222-f284a6bf-c51d-4ddb-9d58-45f493c4d184.png">
+
+
