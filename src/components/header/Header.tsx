@@ -32,8 +32,12 @@ export const Header: React.FC = () => {
 
   const jwt = useSelector(s => s.user.token)  //获取token
   const [username, setUsername] = useState("")
-  useEffect(()=>{
-    if(jwt){
+
+  const shoppingCartItems = useSelector(s => s.shoppingCart.items)  //购物车商品数量
+  const shoppingCartLoading = useSelector(s => s.shoppingCart.loading)
+
+  useEffect(() => {
+    if (jwt) {
       const token = jwt_decode<JwtPayload>(jwt)   //服务端是jwt保存用户数据,客户端需要解码token
       setUsername(token.username)
     }
@@ -82,7 +86,11 @@ export const Header: React.FC = () => {
                 {t("header.welcome")}
                 <Typography.Text strong>{username}</Typography.Text>
               </span>
-              <Button onClick={() => history.push("/shoppingCart")}>{t("header.shoppingCart")}</Button>
+              <Button
+                loading={shoppingCartLoading}
+                onClick={() => history.push("/shoppingCart")}>
+                {t("header.shoppingCart")}({shoppingCartItems.length})
+              </Button>
               <Button onClick={onLogout}>{t("header.signOut")}</Button>
             </Button.Group>
           ) : (

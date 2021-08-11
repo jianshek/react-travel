@@ -13,6 +13,8 @@ import { productSearchSlice } from "./productSearch/slice";
 import { userSlice } from "./user/slice";
 import { persistStore, persistReducer } from "redux-persist";  //数据持久化
 import storage from "redux-persist/lib/storage"; 
+import { shoppingCartSlice } from "./shoppingCart/slice";  //购物车
+
 
 /**
  * 持久化配置
@@ -34,7 +36,8 @@ const rootReducer = combineReducers({
     recommendProducts: recommendProductsReducer,
     productDetail: productDetailSlice.reducer,
     productSearch: productSearchSlice.reducer,
-    user: userSlice.reducer
+    user: userSlice.reducer,
+    shoppingCart: shoppingCartSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -44,7 +47,9 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 // const store = createStore(rootReducer, applyMiddleware(thunk, actionLog)); 
 const store = configureStore({
     reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), actionLog], //因为toolkit有使用自己的中间件,所以先获取默认中间件,然后加入自定义的中间件
+    middleware: (getDefaultMiddleware) => [...getDefaultMiddleware({
+      serializableCheck: false, //toolkit关闭序列化校验(redux-persist保存数据为空时,控制台会报错)
+    }), actionLog], //因为toolkit有使用自己的中间件,所以先获取默认中间件,然后加入自定义的中间件
     devTools: true,  //开启redux调试
   });
 

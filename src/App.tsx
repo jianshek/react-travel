@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from "./App.module.css";
 /**
  * BrowserRouter:路由导航和源生浏览器操作一致
@@ -9,6 +9,8 @@ import styles from "./App.module.css";
 import { BrowserRouter, Route, Switch,Redirect } from "react-router-dom";
 import { HomePage, SignInPage, RegisterPage, DetailPage, SearchPage,ShoppingCartPage } from "./pages";
 import { useSelector } from "./redux/hooks";
+import { useDispatch } from "react-redux";
+import { getShoppingCart } from "./redux/shoppingCart/slice"; //获取购物车商品数量
 
 /**
  * 判断是否已登录,如果登陆加载component,未登录重定向到登录页面
@@ -29,6 +31,13 @@ const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
 
 function App() {
   const jwt = useSelector((s) => s.user.token); //是否有token
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getShoppingCart(jwt));
+    }
+  }, [jwt]); //监听jwt
+
   return (
     <div className={styles.App}>
       <BrowserRouter>
