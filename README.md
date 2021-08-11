@@ -47,5 +47,5 @@ react17仿携程网(简易版😆😆)
 
 购物车 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
-<img width="1279" alt="shoppingCart" src="https://user-images.githubusercontent.com/17513103/128961057-6b6af943-dae8-4648-ba16-6bbbd3d257ff.png">
+<img width="640" alt="shoppingCart" src="https://user-images.githubusercontent.com/17513103/128961057-6b6af943-dae8-4648-ba16-6bbbd3d257ff.png">
 
