@@ -7,7 +7,7 @@ import "./i18n/configs";   //引入国际化配置文件即可
 import { Provider } from "react-redux";  //引入Provider,redux就可以使用了
 import rootStore from "./redux/store";
 import axios from "axios";
-import { PersistGate } from "redux-persist/integration/react";  //相当于provider,提供数据
+import { PersistGate } from "redux-persist/integration/react";  //相当于provider,提供数据(获取本地数据)
 
 
 axios.defaults.headers['x-icode'] = 'FB80558A73FA658E'; //全局配置请求头
