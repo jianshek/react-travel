@@ -7,7 +7,7 @@ import styles from "./App.module.css";
  * Redirect:重定向
  *  */
 import { BrowserRouter, Route, Switch,Redirect } from "react-router-dom";
-import { HomePage, SignInPage, RegisterPage, DetailPage, SearchPage,ShoppingCartPage } from "./pages";
+import { HomePage, SignInPage, RegisterPage, DetailPage, SearchPage,ShoppingCartPage, PlaceOrderPage } from "./pages";
 import { useSelector } from "./redux/hooks";
 import { useDispatch } from "react-redux";
 import { getShoppingCart } from "./redux/shoppingCart/slice"; //获取购物车商品数量
@@ -51,6 +51,11 @@ function App() {
             isAuthenticated={jwt !== null}
             path="/shoppingCart"
             component={ShoppingCartPage}
+          />
+          <PrivateRoute
+            isAuthenticated={jwt !== null}
+            path="/placeOrder"
+            component={PlaceOrderPage}
           />
           <Route render={() => <h1>404 not found 页面去火星了 ！</h1>} />
         </Switch>

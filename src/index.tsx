@@ -12,7 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";  //相当于provi
 
 axios.defaults.headers['x-icode'] = 'FB80558A73FA658E'; //全局配置请求头
 
-
+// React.StrictMode:严格模式(识别过API,意外的副作用等)
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={rootStore.store}>
