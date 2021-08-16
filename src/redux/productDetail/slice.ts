@@ -19,6 +19,7 @@ const initialState: ProductDetailState = {
 
 /**
  * "productDetail/getProductDetail":命名空间   
+ * createAsyncThunk会根据第二个参数返回一个函数,外界调用getProductDetail时传对应的参数
  * createAsyncThunk会返回异步请求的三个状态, pending,fulfilled,rejected
  * touristRouteId:请求参数
  * thunkAPI:包含了redux相关操作,比如 thunkAPI.dispatch, thunkAPI.getState等

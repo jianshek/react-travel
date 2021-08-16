@@ -67,6 +67,7 @@ export const Header: React.FC = () => {
           <Dropdown.Button
             style={{ marginLeft: 15 }}
             overlay={
+             //下面的onClick等价于 onClick={(e) => menuClickHandler(e)}
               <Menu onClick={menuClickHandler}>
                 {languageList.map((l) => {
                   return <Menu.Item key={l.code}>{l.name}</Menu.Item>;

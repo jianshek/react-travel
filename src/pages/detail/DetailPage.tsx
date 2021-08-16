@@ -36,7 +36,7 @@ export const DetailPage: React.FC<RouteComponentProps<MatchParams>> = (props) =>
   const shoppingCartLoading = useSelector(s => s.shoppingCart.loading)
 
   useEffect(() => {
-    dispatch(getProductDetail(touristRouteId))  //使用toolkit中的thunk封装请求
+    dispatch(getProductDetail(touristRouteId))  //使用toolkit中的thunk中间件封装请求
   }, []);
 
   if (loading) {
